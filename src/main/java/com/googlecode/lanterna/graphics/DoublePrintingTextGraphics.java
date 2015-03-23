@@ -18,6 +18,7 @@
  */
 package com.googlecode.lanterna.graphics;
 
+import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.TextCharacter;
 import com.googlecode.lanterna.TerminalSize;
 
@@ -49,4 +50,9 @@ public class DoublePrintingTextGraphics extends AbstractTextGraphics {
         TerminalSize size = underlyingTextGraphics.getSize();
         return size.withColumns(size.getColumns() / 2);
     }
+
+  @Override
+  public TerminalPosition getAbsolutePosition(TerminalPosition position) {
+    return underlyingTextGraphics.getAbsolutePosition(position);
+  }
 }

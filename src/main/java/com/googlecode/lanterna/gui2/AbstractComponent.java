@@ -20,6 +20,7 @@ package com.googlecode.lanterna.gui2;
 
 import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.TerminalSize;
+import com.googlecode.lanterna.TextColor;
 
 /**
  * AbstractComponent provides some good default behaviour for a Component, all components in Lanterna extends from this
@@ -36,6 +37,7 @@ public abstract class AbstractComponent<T extends ComponentRenderer> implements 
     private TerminalPosition position;
     private LayoutData layoutData;
     private boolean invalid;
+    private TextColor backgroundColor;
 
     public AbstractComponent() {
         size = TerminalSize.ZERO;
@@ -232,4 +234,9 @@ public abstract class AbstractComponent<T extends ComponentRenderer> implements 
     public void onRemoved(Container container) {
         parent = null;
     }
+
+  @Override
+  public void setBackgroundColor(TextColor color) {
+    this.backgroundColor = backgroundColor;
+  }
 }

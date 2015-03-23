@@ -47,6 +47,8 @@ public abstract class AbstractTextGUI implements TextGUI {
     private boolean dirty;
     private TextGUIThread textGUIThread;
     private Theme guiTheme;
+    private ScreenInfo screenInfo;
+
 
     protected AbstractTextGUI(Screen screen) {
         if(screen == null) {
@@ -164,7 +166,15 @@ public abstract class AbstractTextGUI implements TextGUI {
         dirty = true;
     }
 
+  @Override
+  public ScreenInfo getScreenInfo() {
+    return new ScreenInfo(screen.getTerminalSize());
+  }
+
+    
+    
     protected abstract void drawGUI(TextGUIGraphics graphics);
     protected abstract TerminalPosition getCursorPosition();
     protected abstract boolean handleInput(KeyStroke key);
+    
 }

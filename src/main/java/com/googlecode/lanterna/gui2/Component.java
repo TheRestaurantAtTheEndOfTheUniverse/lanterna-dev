@@ -20,6 +20,7 @@ package com.googlecode.lanterna.gui2;
 
 import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.TerminalSize;
+import com.googlecode.lanterna.TextColor;
 
 /**
  *
@@ -146,4 +147,6 @@ public interface Component extends TextGUIElement {
      * @param container Container that this component was just removed from
      */
     void onRemoved(Container container);
+    
+    void setBackgroundColor(TextColor color);
 }

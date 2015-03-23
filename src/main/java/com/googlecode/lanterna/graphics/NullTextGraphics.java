@@ -229,4 +229,9 @@ class NullTextGraphics implements TextGraphics {
     public TextGraphics putString(TerminalPosition position, String string, SGR extraModifier, SGR... optionalExtraModifiers) {
         return this;
     }
+
+  @Override
+  public TerminalPosition getAbsolutePosition(TerminalPosition position) {
+    return position;
+  }
 }

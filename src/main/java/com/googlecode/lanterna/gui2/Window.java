@@ -131,6 +131,9 @@ public interface Window extends BasePane {
      */
     TerminalSize getSize();
 
+    void setMaximumSize(TerminalSize size);
+    TerminalSize getMaximumSize();
+    
     /**
      * Returns the last known size of the window including window decorations put on by the window manager. The value
      * returned here is passed in during drawing by the TextGUI through {@code setDecoratedSize(..)}.

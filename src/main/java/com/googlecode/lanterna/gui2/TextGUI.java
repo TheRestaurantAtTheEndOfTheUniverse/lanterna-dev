@@ -97,4 +97,6 @@ public interface TextGUI {
          */
         boolean onUnhandledKeyStroke(TextGUI textGUI, KeyStroke keyStroke);
     }
+    
+    public ScreenInfo getScreenInfo();
 }

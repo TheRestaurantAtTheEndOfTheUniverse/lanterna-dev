@@ -254,4 +254,9 @@ public class ImmutableThemedTextGraphics implements ThemedTextGraphics {
         backend.putString(position, string, extraModifier, optionalExtraModifiers);
         return this;
     }
+
+  @Override
+  public TerminalPosition getAbsolutePosition(TerminalPosition position) {
+    return backend.getAbsolutePosition(position);
+  }
 }

@@ -400,4 +400,6 @@ public interface TextGraphics {
      * @return Itself
      */
     TextGraphics putString(TerminalPosition position, String string, SGR extraModifier, SGR... optionalExtraModifiers);
+    
+    TerminalPosition getAbsolutePosition(TerminalPosition position);
 }

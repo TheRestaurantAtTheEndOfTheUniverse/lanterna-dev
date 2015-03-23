@@ -13,7 +13,7 @@ public class MultiButtonTest {
     public static void main(String[] args) throws IOException, InterruptedException {
         Screen screen = new TestTerminalFactory(args).createScreen();
         screen.startScreen();
-        MultiWindowTextGUI textGUI = new MultiWindowTextGUI(screen);
+        VirtualMultiWindowTextGUI textGUI = new VirtualMultiWindowTextGUI(screen);
         textGUI.setEOFWhenNoWindows(true);
         try {
             final BasicWindow window = new BasicWindow("Button test");

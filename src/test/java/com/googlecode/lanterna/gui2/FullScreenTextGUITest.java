@@ -19,7 +19,7 @@ public class FullScreenTextGUITest {
     public static void main(String[] args) throws IOException, InterruptedException {
         Screen screen = new TestTerminalFactory(args).createScreen();
         screen.startScreen();
-        MultiWindowTextGUI textGUI = new MultiWindowTextGUI(screen);
+        VirtualMultiWindowTextGUI textGUI = new VirtualMultiWindowTextGUI(screen);
         textGUI.addListener(new TextGUI.Listener() {
             @Override
             public boolean onUnhandledKeyStroke(TextGUI textGUI, KeyStroke key) {

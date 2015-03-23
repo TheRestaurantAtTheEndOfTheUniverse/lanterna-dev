@@ -204,7 +204,7 @@ public class SwingTerminalFontConfiguration {
     }
 
     private int getFontHeight(Font font) {
-        return (int)font.getStringBounds("W", getFontRenderContext()).getHeight();
+        return (int)Math.round(font.getStringBounds("Wq", getFontRenderContext()).getHeight()+0.5);
     }
 
     private FontRenderContext getFontRenderContext() {

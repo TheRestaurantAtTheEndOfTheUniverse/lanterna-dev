@@ -238,4 +238,16 @@ public class Symbols {
      * ╢
      */
     public static final char DOUBLE_LINE_T_SINGLE_LEFT = 0x2562;
+    
+    /**
+     * 
+     */
+    public static final char BLACK_RIGHT_POINTING_TRIANGLE = 0x25B6;
+    public static final char BLACK_RIGHT_POINTING_SMALL_TRIANGLE = 0x25B8;
+      
+    /**
+     * 
+     */
+    public static final char BLACK_DOWN_POINTING_TRIANGLE = 0x25BC;
+    public static final char BLACK_DOWN_POINTING_SMALL_TRIANGLE = 0x25BE;
 }

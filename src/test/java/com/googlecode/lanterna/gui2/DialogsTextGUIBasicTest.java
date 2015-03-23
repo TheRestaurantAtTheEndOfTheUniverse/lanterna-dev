@@ -30,7 +30,7 @@ public class DialogsTextGUIBasicTest {
     public static void main(String[] args) throws IOException, InterruptedException {
         Screen screen = new TestTerminalFactory(args).createScreen();
         screen.startScreen();
-        WindowBasedTextGUI textGUI = new MultiWindowTextGUI(screen);
+        WindowBasedTextGUI textGUI = new VirtualMultiWindowTextGUI(screen);
         try {
             BasicWindow window = new BasicWindow("Dialog test");
             textGUI.addWindow(window);

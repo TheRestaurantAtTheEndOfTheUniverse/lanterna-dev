@@ -39,6 +39,7 @@ public class AbstractWindow extends AbstractBasePane implements Window {
     private TerminalSize lastKnownDecoratedSize;
     private TerminalPosition lastKnownPosition;
     private TerminalPosition contentOffset;
+    private TerminalSize maximumSize;
 
     public AbstractWindow() {
         this("");
@@ -110,9 +111,11 @@ public class AbstractWindow extends AbstractBasePane implements Window {
     }
 
     @Override
-    public TerminalSize getPreferredSize() {
-        return contentHolder.getPreferredSize();
-    }
+  public TerminalSize getPreferredSize() {
+    final TerminalSize preferredSize = contentHolder.getPreferredSize();
+    return maximumSize == null ? preferredSize
+      : preferredSize.min(maximumSize);
+  }
 
     @Override
     public Set<Hint> getHints() {
@@ -156,4 +159,12 @@ public class AbstractWindow extends AbstractBasePane implements Window {
         }
         setComponent(null);
     }
+
+  public TerminalSize getMaximumSize() {
+    return maximumSize;
+  }
+
+  public void setMaximumSize(TerminalSize maximumSize) {
+    this.maximumSize = maximumSize;
+  }
 }

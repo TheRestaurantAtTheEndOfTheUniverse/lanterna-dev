@@ -53,4 +53,9 @@ class SubTextGraphics extends AbstractTextGraphics {
     public TerminalSize getSize() {
         return writableAreaSize;
     }
+
+  @Override
+  public TerminalPosition getAbsolutePosition(TerminalPosition position) {
+    return underlyingTextGraphics.getAbsolutePosition(position).withRelative(topLeft);
+  }
 }

@@ -335,4 +335,14 @@ public abstract class AbstractTextGraphics implements TextGraphics {
     private TextCharacter newTextCharacter(char character) {
         return new TextCharacter(character, foregroundColor, backgroundColor, activeModifiers);
     }
+
+  /**
+   *
+   * @param position
+   * @return
+   */
+  @Override
+  public TerminalPosition getAbsolutePosition(TerminalPosition position) {
+    return position;
+  }
 }
