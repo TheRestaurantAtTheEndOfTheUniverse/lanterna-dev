@@ -45,10 +45,12 @@ public class MenuBar extends AbstractInteractableComponent<MenuBarRenderer> impl
     }
 
     private void openBody() {
-        final TerminalPosition topLeft = menuBodyRenderPostitions.get(activeMenu);
-        MenuWindow body = new MenuWindow(activeMenu);
-        body.setPosition(menuBodyRenderPostitions.get(activeMenu));
-        overlayTarget.addOverlay(body);
+        if(activeMenu != null && activeMenu.getItems().size() > 0) {
+            final TerminalPosition topLeft = menuBodyRenderPostitions.get(activeMenu);
+            MenuWindow body = new MenuWindow(activeMenu);
+            body.setPosition(menuBodyRenderPostitions.get(activeMenu));
+            overlayTarget.addOverlay(body);
+        }
     }
 
     @Override
@@ -86,7 +88,7 @@ public class MenuBar extends AbstractInteractableComponent<MenuBarRenderer> impl
                 return Result.MOVE_FOCUS_RIGHT;
             case ArrowLeft:
                 if (index > 0) {
-                    activeMenu = menus.get(index + 1);
+                    activeMenu = menus.get(index - 1);
                     return Result.HANDLED;
                 }
                 return Result.MOVE_FOCUS_LEFT;
