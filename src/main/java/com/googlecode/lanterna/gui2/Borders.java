@@ -21,6 +21,7 @@ package com.googlecode.lanterna.gui2;
 import com.googlecode.lanterna.Symbols;
 import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.TerminalSize;
+import javax.swing.text.StyleConstants;
 
 /**
  * This class containers a couple of border implementation
@@ -98,8 +99,14 @@ public class Borders {
             if(wrappedComponent == null) {
                 return;
             }
+            
             TerminalSize drawableArea = graphics.getSize();
             graphics.applyThemeStyle(graphics.getThemeDefinition(StandardBorder.class).getNormal());
+                                    
+            if(component.getBackgroundColor() != null) {
+                graphics.setBackgroundColor(component.getBackgroundColor());
+                graphics.fill(' ');
+            }
 
             char horizontalLine = getHorizontalLine(graphics);
             char verticalLine = getVerticalLine(graphics);

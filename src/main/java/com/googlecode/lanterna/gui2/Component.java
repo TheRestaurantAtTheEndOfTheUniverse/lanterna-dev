@@ -149,4 +149,6 @@ public interface Component extends TextGUIElement {
     void onRemoved(Container container);
     
     void setBackgroundColor(TextColor color);
+    
+    TextColor getBackgroundColor();
 }
