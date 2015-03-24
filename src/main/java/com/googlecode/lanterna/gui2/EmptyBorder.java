@@ -18,80 +18,111 @@ import com.googlecode.lanterna.gui2.TextGUIGraphics;
  * @author kessinger
  */
 public class EmptyBorder extends AbstractBorder {
-  
-  private class EmptyBorderRenderer implements Border.BorderRenderer {
 
-  @Override
-  public TerminalSize getPreferredSize(Component component) {
-    EmptyBorder border = (EmptyBorder)component;
-    Component wrappedComponent = border.getComponent();
-    TerminalSize preferredSize;
-    if(wrappedComponent == null) {
-      preferredSize = TerminalSize.ZERO;
+    private class EmptyBorderRenderer implements Border.BorderRenderer {
+
+        @Override
+        public TerminalSize getPreferredSize(Component component) {
+            EmptyBorder border = (EmptyBorder) component;
+            Component wrappedComponent = border.getComponent();
+            TerminalSize preferredSize = wrappedComponent == null ? TerminalSize.ZERO
+                                         : wrappedComponent.getPreferredSize();
+            
+            preferredSize = preferredSize.withRelativeColumns(border.getLeft() + border.getRight()).withRelativeRows(border.getTop() + border.getBottom());
+
+            return preferredSize.max(new TerminalSize(border.getLeft() + border.getRight(), border.getTop() + border.getBottom()));
+        }
+
+        @Override
+        public TerminalPosition getWrappedComponentTopLeftOffset() {
+            return new TerminalPosition(left, top);
+        }
+
+        @Override
+        public TerminalSize getWrappedComponentSize(TerminalSize borderSize) {
+            return borderSize.withRelativeColumns(-left - right).withRelativeRows(-top - bottom);
+        }
+
+        @Override
+        public void drawComponent(TextGUIGraphics graphics, Component component) {
+            Border border = (Border) component;
+            Component wrappedComponent = border.getComponent();
+            if (wrappedComponent == null) {
+                return;
+            }
+            TerminalSize drawableArea = graphics.getSize();
+
+            if (color != null) {
+                graphics.setBackgroundColor(color);
+                graphics.fill(' ');
+            }
+
+            wrappedComponent.draw(graphics.newTextGraphics(getWrappedComponentTopLeftOffset(), 
+                                                           getWrappedComponentSize(drawableArea)));
+        }
     }
-    else {
-      preferredSize = wrappedComponent.getPreferredSize();
-    }
-    preferredSize = preferredSize.withRelativeColumns(width*2).withRelativeRows(width*2);
 
-    return preferredSize.max(new TerminalSize(border.getWidth() * 2, width * 2));
-  }
+    private int top;
+    private int right;
+    private int bottom;
+    private int left;
 
-  @Override
-  public TerminalPosition getWrappedComponentTopLeftOffset() {
-    return new TerminalPosition(width, width);
-  }
+    private TextColor color;
 
-  @Override
-  public TerminalSize getWrappedComponentSize(TerminalSize borderSize) {
-    return borderSize.withRelativeColumns(-2*width).withRelativeRows(-2*width);
-  }
-
-  @Override
-  public void drawComponent(TextGUIGraphics graphics, Component component) {
-    Border border = (Border)component;
-    Component wrappedComponent = border.getComponent();
-    if(wrappedComponent == null) {
-      return;
-    }
-    TerminalSize drawableArea = graphics.getSize();
-
-    if(color != null) {
-      graphics.setBackgroundColor(color);
-      graphics.fill(' ');
+    public EmptyBorder(int width, TextColor color) {
+        this(width, width, width, width, color);
     }
 
-    wrappedComponent.draw(graphics.newTextGraphics(getWrappedComponentTopLeftOffset(), getWrappedComponentSize(drawableArea)));
-  }
-}
+    public EmptyBorder(int top, int right, int bottom, int left, TextColor color) {
+        this.top = top;
+        this.right = right;
+        this.bottom = bottom;
+        this.left = left;
+        this.color = color;
+    }
 
-  
-  private int width;
-  private TextColor color;
+    public int getTop() {
+        return top;
+    }
 
-  public EmptyBorder(int width, TextColor color) {
-    this.width = width;
-    this.color = color;
-  }
+    public void setTop(int top) {
+        this.top = top;
+    }
 
-  public int getWidth() {
-    return width;
-  }
+    public int getRight() {
+        return right;
+    }
 
-  public void setWidth(int width) {
-    this.width = width;
-  }
+    public void setRight(int right) {
+        this.right = right;
+    }
 
-  public TextColor getColor() {
-    return color;
-  }
+    public int getBottom() {
+        return bottom;
+    }
 
-  public void setColor(TextColor color) {
-    this.color = color;
-  }
-  
-  @Override
-  protected BorderRenderer createDefaultRenderer() {
-    return new EmptyBorderRenderer();
-  }
+    public void setBottom(int bottom) {
+        this.bottom = bottom;
+    }
+
+    public int getLeft() {
+        return left;
+    }
+
+    public void setLeft(int left) {
+        this.left = left;
+    }
+
+    public TextColor getColor() {
+        return color;
+    }
+
+    public void setColor(TextColor color) {
+        this.color = color;
+    }
+
+    @Override
+    protected BorderRenderer createDefaultRenderer() {
+        return new EmptyBorderRenderer();
+    }
 }
