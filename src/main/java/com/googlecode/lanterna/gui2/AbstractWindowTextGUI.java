@@ -61,6 +61,10 @@ public abstract class AbstractWindowTextGUI<T extends Screen>  extends AbstractT
         this.eofWhenNoWindows = false;
     }
 
+    protected boolean isOverlay(Window window) {
+        return overlays.contains(window);
+    }
+    
     @Override
     public synchronized boolean isPendingUpdate() {
         for(Window window: windows) {
@@ -180,11 +184,20 @@ public abstract class AbstractWindowTextGUI<T extends Screen>  extends AbstractT
 
     @Override
     public synchronized WindowBasedTextGUI removeWindow(Window window) {
-        windows.remove(window);
-        window.setTextGUI(null);
-        windowManager.onRemoved(this, window, windows);
+        if(isOverlay(window))
+            removeWindow(window, overlays);
+        else
+            removeWindow(window, windows);
+
         invalidate();
         return this;
+    }
+    
+    private void removeWindow(Window window, List<Window> layer) {
+        layer.remove(window);
+        window.setTextGUI(null);
+        windowManager.onRemoved(this, window, layer);
+        invalidate();
     }
 
     @Override
@@ -194,6 +207,10 @@ public abstract class AbstractWindowTextGUI<T extends Screen>  extends AbstractT
 
     @Override
     public synchronized Window getActiveWindow() {
+        if (!overlays.isEmpty()) {
+            return overlays.get(overlays.size() - 1);
+        }
+
         return windows.isEmpty() ? null : windows.get(windows.size() - 1);
     }
 
@@ -203,13 +220,24 @@ public abstract class AbstractWindowTextGUI<T extends Screen>  extends AbstractT
 
     @Override
     public synchronized WindowBasedTextGUI moveToTop(Window window) {
-        if(!windows.contains(window)) {
-            throw new IllegalArgumentException("Window " + window + " isn't in AbstractMultiWindowTextGUI " + this);
+        if (isOverlay(window)) {
+            moveToTop(window, overlays);
         }
-        windows.remove(window);
-        windows.add(window);
+        else {
+            moveToTop(window, windows);
+        }
+
         invalidate();
         return this;
+    }
+    
+    private void moveToTop(Window window, List<Window> windowList) {
+        if(!windowList.contains(window)) {
+            throw new IllegalArgumentException("Window " + window + " isn't in AbstractMultiWindowTextGUI " + this);
+        }
+        windowList.remove(window);
+        windowList.add(window);
+        invalidate();
     }
 
     
@@ -226,12 +254,4 @@ public abstract class AbstractWindowTextGUI<T extends Screen>  extends AbstractT
         invalidate();
         return this;
     }
-    
-  @Override
-  public synchronized WindowBasedTextGUI removeOverlay(Window window) {
-    overlays.remove(window);
-    window.setTextGUI(null);
-    invalidate();
-    return this;
-  }
 }

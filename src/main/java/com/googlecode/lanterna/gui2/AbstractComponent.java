@@ -23,13 +23,15 @@ import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextColor;
 
 /**
- * AbstractComponent provides some good default behaviour for a Component, all components in Lanterna extends from this
- * class in some way. If you want to write your own component that isn't interactable or theme:able, you probably want
- * to extend from this class.
+ * AbstractComponent provides some good default behaviour for a Component, all components in
+ * Lanterna extends from this class in some way. If you want to write your own component that isn't
+ * interactable or theme:able, you probably want to extend from this class.
+ *
  * @author Martin
  * @param <T> Type of Renderer this component will use
  */
 public abstract class AbstractComponent<T extends ComponentRenderer> implements Component {
+
     private T renderer;
     private Container parent;
     private TerminalSize size;
@@ -47,30 +49,32 @@ public abstract class AbstractComponent<T extends ComponentRenderer> implements 
         invalid = true;
         parent = null;
         renderer = createDefaultRenderer();
-        
-        if(renderer == null) {
+
+        if (renderer == null) {
             throw new IllegalArgumentException(getClass() + " returns a null default renderer");
         }
     }
-    
+
     /**
-     * When you create a custom component, you need to implement this method and return a Renderer which is responsible
-     * for taking care of sizing the component, rendering it and choosing where to place the cursor (if Interactable).
-     * This value is intended to be overridden by custom themes.
+     * When you create a custom component, you need to implement this method and return a Renderer
+     * which is responsible for taking care of sizing the component, rendering it and choosing where
+     * to place the cursor (if Interactable). This value is intended to be overridden by custom
+     * themes.
+     *
      * @return Renderer to use when sizing and drawing this component
      */
     protected abstract T createDefaultRenderer();
 
     protected void updateRenderer(String className) {
-        if(className == null) {
+        if (className == null) {
             return;
         }
-        if(renderer.getClass().getName().equals(className)) {
+        if (renderer.getClass().getName().equals(className)) {
             return;
         }
         try {
             Object newRenderer = Class.forName(className).newInstance();
-            setRenderer((T)newRenderer);
+            setRenderer((T) newRenderer);
         } catch (InstantiationException e) {
             throw new RuntimeException(e);
         } catch (IllegalAccessException e) {
@@ -81,9 +85,9 @@ public abstract class AbstractComponent<T extends ComponentRenderer> implements 
     }
 
     protected void setRenderer(T renderer) {
-        if(renderer == null) {
+        if (renderer == null) {
             renderer = createDefaultRenderer();
-            if(renderer == null) {
+            if (renderer == null) {
                 throw new IllegalStateException(getClass() + " returned a null default renderer");
             }
         }
@@ -111,7 +115,7 @@ public abstract class AbstractComponent<T extends ComponentRenderer> implements 
 
     @Override
     public final TerminalSize getPreferredSize() {
-        if(explicitPreferredSize != null) {
+        if (explicitPreferredSize != null) {
             return explicitPreferredSize;
         }
         else {
@@ -139,7 +143,7 @@ public abstract class AbstractComponent<T extends ComponentRenderer> implements 
     public TerminalPosition getPosition() {
         return position;
     }
-    
+
     @Override
     public boolean isInvalid() {
         return invalid;
@@ -152,10 +156,12 @@ public abstract class AbstractComponent<T extends ComponentRenderer> implements 
     }
 
     /**
-     * Implement this method to define the logic to draw the component. The reason for this abstract method, instead of
-     * overriding {@code Component.draw(..)} is because {@code AbstractComponent.draw(..)} calls this method and then
-     * resets the invalid flag. If you could override {@code draw}, you might forget to call the super method and
-     * probably won't notice that your code keeps refreshing the GUI even though nothing has changed.
+     * Implement this method to define the logic to draw the component. The reason for this abstract
+     * method, instead of overriding {@code Component.draw(..)} is because
+     * {@code AbstractComponent.draw(..)} calls this method and then resets the invalid flag. If you
+     * could override {@code draw}, you might forget to call the super method and probably won't
+     * notice that your code keeps refreshing the GUI even though nothing has changed.
+     *
      * @param graphics TextGraphics to be used to draw the component
      */
     public void drawComponent(TextGUIGraphics graphics) {
@@ -169,7 +175,7 @@ public abstract class AbstractComponent<T extends ComponentRenderer> implements 
 
     @Override
     public AbstractComponent setLayoutData(LayoutData data) {
-        if(layoutData != data) {
+        if (layoutData != data) {
             layoutData = data;
             invalidate();
         }
@@ -188,17 +194,17 @@ public abstract class AbstractComponent<T extends ComponentRenderer> implements 
 
     @Override
     public TextGUI getTextGUI() {
-        if(parent == null) {
+        if (parent == null) {
             return null;
         }
         return parent.getTextGUI();
     }
-    
+
     @Override
     public boolean isInside(Container container) {
         Component test = this;
-        while(test.getParent() != null) {
-            if(test.getParent() == container) {
+        while (test.getParent() != null) {
+            if (test.getParent() == container) {
                 return true;
             }
             test = test.getParent();
@@ -208,7 +214,7 @@ public abstract class AbstractComponent<T extends ComponentRenderer> implements 
 
     @Override
     public BasePane getBasePane() {
-        if(parent == null) {
+        if (parent == null) {
             return null;
         }
         return parent.getBasePane();
@@ -235,8 +241,12 @@ public abstract class AbstractComponent<T extends ComponentRenderer> implements 
         parent = null;
     }
 
-  @Override
-  public void setBackgroundColor(TextColor color) {
-    this.backgroundColor = backgroundColor;
-  }
+    @Override
+    public void setBackgroundColor(TextColor color) {
+        this.backgroundColor = color;
+    }
+
+    public TextColor getBackgroundColor() {
+        return backgroundColor;
+    }
 }

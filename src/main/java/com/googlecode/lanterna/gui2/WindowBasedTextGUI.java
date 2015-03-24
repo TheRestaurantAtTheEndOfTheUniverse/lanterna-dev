@@ -48,6 +48,4 @@ public interface WindowBasedTextGUI extends ComponentBasedTextGUI {
     WindowBasedTextGUI moveToTop(Window window);
 
     WindowBasedTextGUI addOverlay(Window window);
-
-    WindowBasedTextGUI removeOverlay(Window window);
 }
