@@ -19,6 +19,7 @@ public class TreeNode {
     private List<TreeNode> children = new ArrayList<>();
     private TreeNode parent;
     private boolean expanded = true;
+    private Runnable action;
 
     public TreeNode(String title) {
         this.title = title;
@@ -30,6 +31,14 @@ public class TreeNode {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public Runnable getAction() {
+        return action;
+    }
+
+    public void setAction(Runnable action) {
+        this.action = action;
     }
 
     public List<TreeNode> getChildren() {
