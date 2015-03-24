@@ -6,6 +6,7 @@
 package com.googlecode.lanterna.gui2;
 
 import com.googlecode.lanterna.Symbols;
+import com.googlecode.lanterna.input.KeyStroke;
 
 /**
  *
@@ -33,8 +34,8 @@ public class MenuSeparator implements MenuItem {
     }
 
     @Override
-    public String getShortCut() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public KeyStroke getShortCut() {
+        return null;
     }
     
 }

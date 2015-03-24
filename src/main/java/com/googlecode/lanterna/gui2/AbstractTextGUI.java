@@ -35,8 +35,9 @@ import java.util.Properties;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
- * This abstract implementation of TextGUI contains some basic management of the underlying Screen and translates the
- * input event queue into an abstract method call.
+ * This abstract implementation of TextGUI contains some basic management of the underlying Screen
+ * and translates the input event queue into an abstract method call.
+ *
  * @author Martin
  */
 public abstract class AbstractTextGUI implements TextGUI {
@@ -48,7 +49,6 @@ public abstract class AbstractTextGUI implements TextGUI {
     private TextGUIThread textGUIThread;
     private Theme guiTheme;
     private ScreenInfo screenInfo;
-
 
     protected AbstractTextGUI(Screen screen) {
         if(screen == null) {
@@ -73,8 +73,7 @@ public abstract class AbstractTextGUI implements TextGUI {
             properties.load(resourceAsStream);
             resourceAsStream.close();
             return properties;
-        }
-        catch(IOException e) {
+        } catch(IOException e) {
             return properties;
         }
     }
@@ -94,7 +93,7 @@ public abstract class AbstractTextGUI implements TextGUI {
         if(keyStroke != null) {
             gotInput = true;
             do {
-                if (keyStroke.getKeyType() == KeyType.EOF) {
+                if(keyStroke.getKeyType() == KeyType.EOF) {
                     throw new EOFException();
                 }
                 boolean handled = handleInput(keyStroke);
@@ -153,10 +152,10 @@ public abstract class AbstractTextGUI implements TextGUI {
     public boolean isBlockingIO() {
         return blockingIO;
     }
-    
+
     protected boolean fireUnhandledKeyStroke(KeyStroke keyStroke) {
         boolean handled = false;
-        for(Listener listener: listeners) {
+        for(Listener listener : listeners) {
             handled = listener.onUnhandledKeyStroke(this, keyStroke) || handled;
         }
         return handled;
@@ -166,15 +165,15 @@ public abstract class AbstractTextGUI implements TextGUI {
         dirty = true;
     }
 
-  @Override
-  public ScreenInfo getScreenInfo() {
-    return new ScreenInfo(screen.getTerminalSize());
-  }
+    @Override
+    public ScreenInfo getScreenInfo() {
+        return new ScreenInfo(screen.getTerminalSize());
+    }
 
-    
-    
     protected abstract void drawGUI(TextGUIGraphics graphics);
+
     protected abstract TerminalPosition getCursorPosition();
+
     protected abstract boolean handleInput(KeyStroke key);
-    
+
 }

@@ -5,6 +5,8 @@
  */
 package com.googlecode.lanterna.gui2;
 
+import com.googlecode.lanterna.input.KeyStroke;
+
 /**
  *
  * @author kessinger
@@ -17,6 +19,6 @@ public interface MenuItem {
 
     String getLabel(int menuWidth);
 
-    String getShortCut();
+    KeyStroke getShortCut();
   
 }
